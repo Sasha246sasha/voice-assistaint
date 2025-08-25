@@ -1,30 +1,24 @@
-from serial import Serial
-from serial.tools.list_ports import comports
+import time
 
 
-def get_com():
-    ports = list(comports())
-    return ports[0].device
-
-
-def command_recognition(command):
+def command_recognition(command, ser):
     if "вкл" in command:
         print("вкл")
-        Commands.on()
+        Commands.on(ser)
     elif "выкл" in command:
         print("выкл")
-        Commands.off()
+        Commands.off(ser)
 
 
 class Commands:
     @staticmethod
-    def on():
-        ser = Serial(get_com(), 9600)
+    def on(ser):
+        time.sleep(3)
+        ser.write(b'Hello world')
         ser.write(b'1')
-        ser.close()
 
     @staticmethod
-    def off():
-        ser = Serial(get_com(), 9600)
+    def off(ser):
+        time.sleep(3)
+        ser.write(b'Hello world')
         ser.write(b'0')
-        ser.close()
